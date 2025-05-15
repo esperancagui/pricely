@@ -1,11 +1,58 @@
-.header{
-  display: flex;
-  flex-direction: row;
-  img{
-    width: 6em;
-  };
-  h1{
-    font-family: 'Roboto';
-    font-weight: 400;
-  }
+@use '../../../styles/variables' as var;
+
+
+body{
+  background: linear-gradient(45deg, var.$primary-gray);
 }
+
+header{
+  background-color: #1e1e1ec7;
+  backdrop-filter: blur(10px);
+  position: fixed;
+  width: 100vw;
+
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  .logo{
+    display: flex;
+    align-items: center;
+    img{
+      height: 5em;
+      padding-left: 0.2em;
+    };
+    h1{
+      font-family: 'Roboto';
+      font-weight: 400;
+      color: var.$white;
+      display: none;
+    }
+  }
+
+  label{
+    width: 100%;
+    padding: 1em;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    
+
+    input{
+      border-radius: 15px;
+      padding: 0.8em;
+      border: none;
+      background-image: url('../../../assets/img/Search.svg');
+      background-repeat: no-repeat;
+      background-position: 10.5em center;
+      background-size: 1.5em;
+      background-color: var.$secondary-gray;
+      color: var.$terciary-gray;
+      font-family: 'Roboto';
+      font-weight: 500;
+    }
+}
+  
+}
+
+
+
