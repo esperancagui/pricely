@@ -1,27 +1,33 @@
 @use '../../../styles/variables' as var;
 
 
-body{
+body {
   background: linear-gradient(45deg, var.$primary-gray);
 }
 
-header{
+header {
   background-color: #1e1e1ec7;
   backdrop-filter: blur(10px);
   position: fixed;
   width: 100vw;
-
   display: flex;
   align-items: center;
   flex-direction: row;
-  .logo{
+  justify-content: space-between;
+  padding: 0 2em 0 0.2em;
+
+  .logo {
     display: flex;
     align-items: center;
-    img{
+
+    img {
       height: 5em;
-      padding-left: 0.2em;
-    };
-    h1{
+      
+    }
+
+    ;
+
+    h1 {
       font-family: 'Roboto';
       font-weight: 400;
       color: var.$white;
@@ -29,30 +35,166 @@ header{
     }
   }
 
-  label{
+  .search-input {
+    border-radius: 15px;
+    padding: 0.8em 2.5em 0.8em 1em;
+    border: none;
+    background-color: var.$secondary-gray;
+    color: var.$terciary-gray;
+    font-family: 'Roboto';
+    font-weight: 500;
     width: 100%;
-    padding: 1em;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    position: relative;
 
-    input{
-      border-radius: 15px;
-      padding: 0.8em;
-      border: none;
-      background-image: url('../../../assets/img/Search.svg');
-      background-repeat: no-repeat;
-      background-position: 10.5em center;
-      background-size: 1.5em;
-      background-color: var.$secondary-gray;
-      color: var.$terciary-gray;
-      font-family: 'Roboto';
-      font-weight: 500;
+    // Autocomplete styles
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus {
+        -webkit-box-shadow: 0 0 0px 1000px var.$secondary-gray inset !important;
+        -webkit-text-fill-color: var.$terciary-gray !important;
+        background-color: var.$secondary-gray !important;
+    }
+
+    // Firefox
+    &:-moz-autofill,
+    &:-moz-autofill:hover,
+    &:-moz-autofill:focus {
+        background-color: var.$secondary-gray !important;
+        color: var.$terciary-gray !important;
+        background-image: none !important;
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
     }
 }
-  
+
+.search-input-container {
+    position: relative;
+    display: inline-block;
+    width: 50vw;
+
+    &::after {
+        content: '';
+        position: absolute;
+        right: 1em;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 1.5em;
+        height: 1.5em;
+        background-image: url('../../../assets/img/Search.svg');
+        background-size: contain;
+        background-repeat: no-repeat;
+        pointer-events: none;
+    }
 }
 
+.header-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem; // Space between search and menu
+  width: 100%;
+  padding: 1rem;
+}
 
+.search-input-container {
+  position: relative;
+  flex-grow: 1; // Takes available space
+  max-width: 50vw;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    right: 1em;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.5em;
+    height: 1.5em;
+    background-image: url('../../../assets/img/Search.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    pointer-events: none;
+  }
+}
 
+.search-input {
+  border-radius: 15px;
+  padding: 0.8em 2.5em 0.8em 1em;
+  border: none;
+  background-color: var.$secondary-gray;
+  color: var.$terciary-gray;
+  font-family: 'Roboto';
+  font-weight: 500;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px var.$secondary-gray inset !important;
+    -webkit-text-fill-color: var.$terciary-gray !important;
+    background-color: var.$secondary-gray !important;
+  }
+
+  &:-moz-autofill,
+  &:-moz-autofill:hover,
+  &:-moz-autofill:focus {
+    background-color: var.$secondary-gray !important;
+    color: var.$terciary-gray !important;
+    background-image: none !important;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+  }
+}
+
+// Hamburger Menu Styles
+.hamburger-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 2rem;
+  height: 2rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 10;
+  
+  &:focus {
+    outline: none;
+  }
+}
+
+.hamburger-line {
+  width: 2rem;
+  height: 0.25rem;
+  background: var.$terciary-gray;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  position: relative;
+  transform-origin: center;
+}
+
+// Optional: Animation when clicked
+.hamburger-menu.active {
+  .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(0.45rem, 0.45rem);
+  }
+  
+  .hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(0.45rem, -0.45rem);
+  }
+}
+
+}
