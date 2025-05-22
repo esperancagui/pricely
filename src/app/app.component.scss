@@ -1,0 +1,6 @@
+@use '../styles/variables' as var;
+
+
+body{
+  background: linear-gradient(45deg, var.$primary-gray, var.$gradient-gray);
+}
