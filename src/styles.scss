@@ -53,9 +53,10 @@ input{
 
 body{
   background: var.$primary-gray;
-  background: linear-gradient(45deg, var.$primary-gray, var.$gradient-gray) 100%;
-  width: 100vw;
-  height: 100vh;
+  background: linear-gradient(45deg, var.$primary-gray, var.$gradient-gray) fixed;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 
