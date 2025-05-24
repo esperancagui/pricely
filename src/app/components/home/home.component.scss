@@ -8,7 +8,7 @@ body {
   background: linear-gradient(45deg, var.$primary-gray);
 }
 
-header {
+.header-div {
   background-color: rgba(30, 30, 30, 0.8);
   backdrop-filter: blur(10px);
   position: fixed;
@@ -304,6 +304,6 @@ header {
   }
 }
 
-header {
+.header-div {
   animation: slideDown 0.5s ease-out;
 }
