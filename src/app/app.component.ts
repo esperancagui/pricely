@@ -5,6 +5,7 @@ import { SliderComponent } from './components/slider/slider.component';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   imports: [RouterOutlet, HomeComponent, SliderComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
