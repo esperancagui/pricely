@@ -1,17 +1,48 @@
 <div class="slider-container">
-  <div id="carouselExample" class="carousel slide">
+  <div *ngIf="loading" class="loading-spinner">
+    <div class="spinner-border text-light" role="status">
+      <span class="visually-hidden">Carregando...</span>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && !error" id="carouselExample" class="carousel slide">
     <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img src="../../../assets/img/super.jpg" class="d-block w-100" alt="...">
+      <div *ngFor="let game of discountedGames; let i = index" class="carousel-item" [class.active]="i === 0">
+        <div class="game-card">
+          <img [src]="game.background_image" class="d-block w-100" [alt]="game.name">
+          <div class="game-info">
+            <h3>{{ game.name }}</h3>
+            <div class="price-info">
+              <span class="original-price">R$ {{ game.original_price.toFixed(2) }}</span>
+              <span class="current-price">R$ {{ game.current_price.toFixed(2) }}</span>
+              <span class="discount-badge" *ngIf="game.discount_percentage > 0">-{{ game.discount_percentage.toFixed(0)
+                }}%</span>
+            </div>
+            <div class="game-details">
+              <p class="platform">{{ game.platform }}</p>
+              <div class="rating">
+                <span class="rating-score">{{ game.rating }}/{{ game.rating_top }}</span>
+                <span class="metacritic" *ngIf="game.metacritic_score">
+                  Metacritic: {{ game.metacritic_score }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      
+    </div>
+
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
+      <span class="visually-hidden">Anterior</span>
     </button>
     <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
+      <span class="visually-hidden">Próximo</span>
     </button>
   </div>
 </div>
