@@ -2,11 +2,13 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { SliderComponent } from './components/slider/slider.component';
+import { CardComponent } from './components/card/card.component';
+import { CategoriesComponent } from './components/categories/categories.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HomeComponent, SliderComponent],
+  imports: [RouterOutlet, HomeComponent, SliderComponent, CardComponent, CategoriesComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

@@ -1,1 +1,111 @@
-<p>card works!</p>
+<div class="platforms-container">
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="loading">
+    <p>Carregando jogos...</p>
+  </div>
+
+  <!-- Error State -->
+  <div class="error-state" *ngIf="error">
+    <p>{{error}}</p>
+  </div>
+
+  <!-- PlayStation Section -->
+  <div class="platform-section" *ngIf="!loading && !error" id="playstation-section">
+    <div class="platform-header">
+      <img class="platform-logo" src="../../../assets/img/PlayStation-Icon-Logo.wine.svg" alt="PlayStation">
+      <h2>PlayStation</h2>
+    </div>
+    <div class="games-grid">
+      <div class="game-card" *ngFor="let game of playstationGames">
+        <div class="game-image">
+          <img [src]="game.background_image" [alt]="game.name" (error)="handleImageError($event)">
+          <div class="discount-badge" *ngIf="game.discount_percentage > 0">-{{(game.discount_percentage ||
+            0).toFixed(0)}}%</div>
+        </div>
+        <div class="game-info">
+          <h3>{{game.name || 'Nome não disponível'}}</h3>
+          <p class="platform">{{game.platform || 'Plataforma não especificada'}}</p>
+          <div class="price-info">
+            <span class="original-price">R$ {{(game.original_price || 0).toFixed(2)}}</span>
+            <span class="discount-price">R$ {{(game.current_price || 0).toFixed(2)}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Xbox Section -->
+  <div class="platform-section" *ngIf="!loading && !error" id="xbox-section">
+    <div class="platform-header">
+      <img class="platform-logo" src="../../../assets/img/Xbox_(app)-Logo.wine.svg" alt="Xbox">
+      <h2>Xbox</h2>
+    </div>
+    <div class="games-grid">
+      <div class="game-card" *ngFor="let game of xboxGames">
+        <div class="game-image">
+          <img [src]="game.background_image" [alt]="game.name" (error)="handleImageError($event)">
+          <div class="discount-badge" *ngIf="game.discount_percentage > 0">-{{(game.discount_percentage ||
+            0).toFixed(0)}}%</div>
+        </div>
+        <div class="game-info">
+          <h3>{{game.name || 'Nome não disponível'}}</h3>
+          <p class="platform">{{game.platform || 'Plataforma não especificada'}}</p>
+          <div class="price-info">
+            <span class="original-price">R$ {{(game.original_price || 0).toFixed(2)}}</span>
+            <span class="discount-price">R$ {{(game.current_price || 0).toFixed(2)}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nintendo Section -->
+  <div class="platform-section" *ngIf="!loading && !error" id="nintendo-section">
+    <div class="platform-header">
+      <img class="platform-logo" src="../../../assets/img/Nintendo_Switch-Logo.wine.svg" alt="Nintendo">
+      <h2>Nintendo</h2>
+    </div>
+    <div class="games-grid">
+      <div class="game-card" *ngFor="let game of nintendoGames">
+        <div class="game-image">
+          <img [src]="game.background_image" [alt]="game.name" (error)="handleImageError($event)">
+          <div class="discount-badge" *ngIf="game.discount_percentage > 0">-{{(game.discount_percentage ||
+            0).toFixed(0)}}%</div>
+        </div>
+        <div class="game-info">
+          <h3>{{game.name || 'Nome não disponível'}}</h3>
+          <p class="platform">{{game.platform || 'Plataforma não especificada'}}</p>
+          <div class="price-info">
+            <span class="original-price">R$ {{(game.original_price || 0).toFixed(2)}}</span>
+            <span class="discount-price">R$ {{(game.current_price || 0).toFixed(2)}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PC Section -->
+  <div class="platform-section" *ngIf="!loading && !error" id="pc-section">
+    <div class="platform-header">
+      <img class="platform-logo" src="../../../assets/img/Steam_(service)-Logo.wine.svg" alt="PC">
+      <h2>PC</h2>
+    </div>
+    <div class="games-grid">
+      <div class="game-card" *ngFor="let game of pcGames">
+        <div class="game-image">
+          <img [src]="game.background_image" [alt]="game.name" (error)="handleImageError($event)">
+          <div class="discount-badge" *ngIf="game.discount_percentage > 0">-{{(game.discount_percentage ||
+            0).toFixed(0)}}%</div>
+        </div>
+        <div class="game-info">
+          <h3>{{game.name || 'Nome não disponível'}}</h3>
+          <p class="platform">{{game.platform || 'Plataforma não especificada'}}</p>
+          <div class="price-info">
+            <span class="original-price">R$ {{(game.original_price || 0).toFixed(2)}}</span>
+            <span class="discount-price">R$ {{(game.current_price || 0).toFixed(2)}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

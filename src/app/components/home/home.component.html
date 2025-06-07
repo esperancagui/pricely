@@ -1,126 +1,126 @@
 <div class="header-div">
-  
-    <div class="header-top">
-      <div class="logo">
-        <img class="logo-imagem" src="../../../assets/img/logo-pricely.png" alt="logo">
-        <h1 class="header-title">Pricely</h1>
-      </div>
-  
-      <div class="search-input-container">
-        <input class="search-input" type="text" required placeholder="Search for Games" id="search">
-      </div>
-  
-      <!-- Navbar para desktop -->
-      <nav class="desktop-nav">
-        <ul>
-          <li>
-            <a href="#">
-              <img src="../../../assets/img/PlayStation-Icon-Logo.wine.svg" alt="PlayStation">
-              <span>PlayStation</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <img src="../../../assets/img/Xbox_(app)-Logo.wine.svg" alt="Xbox">
-              <span>Xbox</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <img src="../../../assets/img/Nintendo_Switch-Logo.wine.svg" alt="Nintendo">
-              <span>Nintendo</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <img src="../../../assets/img/Steam_(service)-Logo.wine.svg" alt="Steam">
-              <span>PC</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="bi bi-tag-fill"></i>
-              <span>Categories</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-  
-      <!-- Dropdown para mobile -->
-      <div class="dropdown mobile-dropdown">
-        <button class="btn btn-transparent p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false"
-          aria-label="Menu">
-          <i class="bi bi-list fs-2 text-white"></i>
-        </button>
-  
-        <ul class="dropdown-menu dropdown-menu-end bg-dark">
-          <li>
-            <a class="dropdown-item text-white" href="#">
-              <img src="../../../assets/img/PlayStation-Icon-Logo.wine.svg" alt="PlayStation">
-              PlayStation
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item text-white" href="#">
-              <img src="../../../assets/img/Xbox_(app)-Logo.wine.svg" alt="Xbox">
-              Xbox
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item text-white" href="#">
-              <img src="../../../assets/img/Nintendo_Switch-Logo.wine.svg" alt="Nintendo">
-              Nintendo
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item text-white" href="#">
-              <img src="../../../assets/img/Steam_(service)-Logo.wine.svg" alt="Steam">
-              PC
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item text-white" href="#">
-              <i class="bi bi-tag-fill"></i>
-              Categories
-            </a>
-          </li>
-        </ul>
-      </div>
+
+  <div class="header-top">
+    <div class="logo" (click)="scrollToTop()">
+      <img class="logo-imagem" src="../../../assets/img/logo-pricely.png" alt="logo">
+      <h1 class="header-title">Pricely</h1>
     </div>
-  
-    <!-- Dropdown para tablet -->
-    <div class="tablet-dropdown">
+
+    <div class="search-input-container">
+      <input class="search-input" type="text" required placeholder="Search for Games" id="search">
+    </div>
+
+    <!-- Navbar para desktop -->
+    <nav class="desktop-nav">
       <ul>
         <li>
-          <a href="#">
+          <a (click)="scrollToSection('playstation-section')">
             <img src="../../../assets/img/PlayStation-Icon-Logo.wine.svg" alt="PlayStation">
             <span>PlayStation</span>
           </a>
         </li>
         <li>
-          <a href="#">
+          <a (click)="scrollToSection('xbox-section')">
             <img src="../../../assets/img/Xbox_(app)-Logo.wine.svg" alt="Xbox">
             <span>Xbox</span>
           </a>
         </li>
         <li>
-          <a href="#">
+          <a (click)="scrollToSection('nintendo-section')">
             <img src="../../../assets/img/Nintendo_Switch-Logo.wine.svg" alt="Nintendo">
             <span>Nintendo</span>
           </a>
         </li>
         <li>
-          <a href="#">
+          <a (click)="scrollToSection('pc-section')">
             <img src="../../../assets/img/Steam_(service)-Logo.wine.svg" alt="Steam">
             <span>PC</span>
           </a>
         </li>
         <li>
-          <a href="#">
+          <a (click)="scrollToSection('categories-section')">
             <i class="bi bi-tag-fill"></i>
             <span>Categories</span>
           </a>
         </li>
       </ul>
+    </nav>
+
+    <!-- Dropdown para mobile -->
+    <div class="dropdown mobile-dropdown">
+      <button class="btn btn-transparent p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+        aria-label="Menu">
+        <i class="bi bi-list fs-2 text-white"></i>
+      </button>
+
+      <ul class="dropdown-menu dropdown-menu-end bg-dark">
+        <li>
+          <a class="dropdown-item text-white" (click)="scrollToSection('playstation-section')">
+            <img src="../../../assets/img/PlayStation-Icon-Logo.wine.svg" alt="PlayStation">
+            PlayStation
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item text-white" (click)="scrollToSection('xbox-section')">
+            <img src="../../../assets/img/Xbox_(app)-Logo.wine.svg" alt="Xbox">
+            Xbox
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item text-white" (click)="scrollToSection('nintendo-section')">
+            <img src="../../../assets/img/Nintendo_Switch-Logo.wine.svg" alt="Nintendo">
+            Nintendo
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item text-white" (click)="scrollToSection('pc-section')">
+            <img src="../../../assets/img/Steam_(service)-Logo.wine.svg" alt="Steam">
+            PC
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item text-white" (click)="scrollToSection('categories-section')">
+            <i class="bi bi-tag-fill"></i>
+            Categories
+          </a>
+        </li>
+      </ul>
     </div>
+  </div>
+
+  <!-- Dropdown para tablet -->
+  <div class="tablet-dropdown">
+    <ul>
+      <li>
+        <a (click)="scrollToSection('playstation-section')">
+          <img src="../../../assets/img/PlayStation-Icon-Logo.wine.svg" alt="PlayStation">
+          <span>PlayStation</span>
+        </a>
+      </li>
+      <li>
+        <a (click)="scrollToSection('xbox-section')">
+          <img src="../../../assets/img/Xbox_(app)-Logo.wine.svg" alt="Xbox">
+          <span>Xbox</span>
+        </a>
+      </li>
+      <li>
+        <a (click)="scrollToSection('nintendo-section')">
+          <img src="../../../assets/img/Nintendo_Switch-Logo.wine.svg" alt="Nintendo">
+          <span>Nintendo</span>
+        </a>
+      </li>
+      <li>
+        <a (click)="scrollToSection('pc-section')">
+          <img src="../../../assets/img/Steam_(service)-Logo.wine.svg" alt="Steam">
+          <span>PC</span>
+        </a>
+      </li>
+      <li>
+        <a (click)="scrollToSection('categories-section')">
+          <i class="bi bi-tag-fill"></i>
+          <span>Categories</span>
+        </a>
+      </li>
+    </ul>
+  </div>
 </div>

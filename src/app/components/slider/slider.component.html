@@ -13,19 +13,19 @@
     <div class="carousel-inner">
       <div *ngFor="let game of discountedGames; let i = index" class="carousel-item" [class.active]="i === 0">
         <div class="game-card">
-          <img [src]="game.background_image" class="d-block w-100" [alt]="game.name">
+          <img [src]="game.background_image" class="d-block w-100" [alt]="game.name" (error)="handleImageError($event)">
           <div class="game-info">
             <h3>{{ game.name }}</h3>
             <div class="price-info">
-              <span class="original-price">R$ {{ game.original_price.toFixed(2) }}</span>
-              <span class="current-price">R$ {{ game.current_price.toFixed(2) }}</span>
-              <span class="discount-badge" *ngIf="game.discount_percentage > 0">-{{ game.discount_percentage.toFixed(0)
-                }}%</span>
+              <span class="original-price">R$ {{ (game.original_price || 0).toFixed(2) }}</span>
+              <span class="current-price">R$ {{ (game.current_price || 0).toFixed(2) }}</span>
+              <span class="discount-badge" *ngIf="game.discount_percentage > 0">-{{ (game.discount_percentage ||
+                0).toFixed(0) }}%</span>
             </div>
             <div class="game-details">
-              <p class="platform">{{ game.platform }}</p>
+              <p class="platform">{{ game.platform || 'Plataforma não especificada' }}</p>
               <div class="rating">
-                <span class="rating-score">{{ game.rating }}/{{ game.rating_top }}</span>
+                <span class="rating-score">{{ game.rating || 0 }}/{{ game.rating_top || 5 }}</span>
                 <span class="metacritic" *ngIf="game.metacritic_score">
                   Metacritic: {{ game.metacritic_score }}
                 </span>

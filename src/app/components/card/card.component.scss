@@ -1,0 +1,221 @@
+@use '../../../styles/variables' as var;
+
+.platforms-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  padding: 2rem;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+    gap: 2rem;
+  }
+}
+
+.loading-state,
+.error-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  background: var.$secondary-gray;
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem 0;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+    margin: 1rem 0;
+  }
+
+  p {
+    color: var.$red-accent;
+    font-size: 1.2rem;
+    font-weight: 500;
+
+    @media (max-width: 768px) {
+      font-size: 1rem;
+    }
+  }
+}
+
+.error-state {
+  background: rgba(255, 0, 0, 0.1);
+  border: 1px solid rgba(255, 0, 0, 0.2);
+}
+
+.platform-section {
+  position: relative;
+  padding: 2rem;
+  background: var.$secondary-gray;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+  }
+
+
+
+  .platform-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var.$white;
+
+    @media (max-width: 768px) {
+      margin-bottom: 1.5rem;
+    }
+
+    h2 {
+      color: var.$white;
+      font-weight: 600;
+      padding-left: 1rem;
+      font-size: 2rem;
+      font-family: "Roboto", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+
+      @media (max-width: 768px) {
+        font-size: 1.5rem;
+      }
+    }
+
+    .platform-logo {
+      width: 3.5em;
+      height: 3.5em;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2.5rem;
+  padding: 0.5rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0;
+  }
+}
+
+.game-card {
+  background: var.$primary-gray;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  
+
+  @media (max-width: 768px) {
+    padding: 0.5rem;
+  }
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.game-image {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  .discount-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: linear-gradient(135deg, var.$primary-gray, var.$gradient-gray);
+    color: var.$white;
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.game-info {
+  padding: 1.5rem;
+
+  h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: var.$white;
+    font-weight: 600;
+    line-height: 1.4;
+
+    @media (max-width: 768px) {
+      font-size: 1.1rem;
+    }
+  }
+
+  .platform {
+    color: var.$terciary-gray;
+    font-size: 0.95rem;
+    margin: 0.8rem 0;
+    font-weight: 500;
+
+    @media (max-width: 768px) {
+      font-size: 0.85rem;
+    }
+  }
+
+  .price-info {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin-top: 1.2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var.$white;
+
+    @media (max-width: 768px) {
+      gap: 0.8rem;
+      margin-top: 0.8rem;
+      padding-top: 0.8rem;
+    }
+
+    .original-price {
+      color: var.$terciary-gray;
+      text-decoration: line-through;
+      font-size: 1rem;
+
+      @media (max-width: 768px) {
+        font-size: 0.9rem;
+      }
+    }
+
+    .discount-price {
+      color: var.$white;
+      font-size: 1.4rem;
+      font-weight: bold;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+
+      @media (max-width: 768px) {
+        font-size: 1.2rem;
+      }
+    }
+  }
+}

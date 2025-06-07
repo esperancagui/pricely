@@ -48,8 +48,8 @@ export class SliderComponent implements OnInit {
         if (placeholder) {
           return {
             ...placeholder,
-            current_price: product.discounted_price,
-            discount_percentage: product.percentage_discount
+            current_price: product.discounted_price || placeholder.price || 0,
+            discount_percentage: product.percentage_discount || 0
           };
         }
         return null;
@@ -81,5 +81,10 @@ export class SliderComponent implements OnInit {
       this.loading = false;
       console.error('Erro ao carregar jogos:', err);
     }
+  }
+
+  // Função para lidar com erro de carregamento de imagem
+  handleImageError(event: any) {
+    event.target.src = 'assets/img/games/default-game.jpg';
   }
 }
