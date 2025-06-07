@@ -1,1 +1,10 @@
-<p>categories works!</p>
+<section class="categories-section" id="categories-section">
+  <h2>Categorias</h2>
+  <div class="categories-grid">
+    @for (category of categories; track category.id) {
+    <div class="category-card">
+      <span>{{ category.name }}</span>
+    </div>
+    }
+  </div>
+</section>
