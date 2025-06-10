@@ -5,8 +5,9 @@ import { ProductPlaceholder } from '../../models/productPlaceholder.model';
 import { Product } from '../../models/product.model';
 
 interface GameWithPrice extends ProductPlaceholder {
-  current_price: number;
-  discount_percentage: number;
+  price: number;
+  discount_price: number;
+  url: string;
 }
 
 @Component({
@@ -29,18 +30,24 @@ export class SliderComponent implements OnInit {
 
   private async loadDiscountedGames() {
     try {
+      console.log('Iniciando loadDiscountedGames');
       // Busca os placeholders e os produtos com preços
       const [placeholdersResponse, productsResponse] = await Promise.all([
         this.testService.getAllProducts(),
         this.testService.getAllProductsWithPrices()
       ]);
 
+      console.log('Placeholders Response:', placeholdersResponse);
+      console.log('Products Response:', productsResponse);
+
       // Garante que estamos trabalhando com arrays
       const placeholders = Array.isArray(placeholdersResponse) ? placeholdersResponse : [];
       const products = Array.isArray(productsResponse) ? productsResponse : [];
 
-      console.log('Placeholders:', placeholders);
-      console.log('Products:', products);
+      if (placeholders.length === 0 || products.length === 0) {
+        console.warn('Dados vazios ou incompletos da API. Placeholders:', placeholders.length, 'Products:', products.length);
+        throw new Error('Nenhum dado recebido da API para combinação');
+      }
 
       // Combina os placeholders com os preços
       const gamesWithPrices: GameWithPrice[] = products.map(product => {
@@ -48,38 +55,50 @@ export class SliderComponent implements OnInit {
         if (placeholder) {
           return {
             ...placeholder,
-            current_price: product.discounted_price || placeholder.price || 0,
-            discount_percentage: product.percentage_discount || 0
+            price: product.price || 0,
+            discount_price: product.discount_price || 0,
+            url: product.url || ''
           };
         }
         return null;
       }).filter((game): game is GameWithPrice => game !== null);
 
-      // Filtra jogos com 50% ou mais de desconto
-      const highDiscountGames = gamesWithPrices.filter(game => game.discount_percentage >= 50);
+      console.log('Games with prices (após combinação):', gamesWithPrices);
 
-      // Se não houver jogos com 50% ou mais de desconto, pega os 5 melhores descontos
-      if (highDiscountGames.length === 0) {
-        const gamesWithDiscount = gamesWithPrices.filter(game => game.discount_percentage > 0);
+      if (gamesWithPrices.length === 0) {
+        console.warn('Nenhum jogo encontrado após combinar os dados.');
+        throw new Error('Nenhum jogo encontrado após combinar os dados');
+      }
 
-        if (gamesWithDiscount.length === 0) {
-          // Se não houver nenhum jogo com desconto, mostra todos os jogos
-          this.discountedGames = gamesWithPrices;
-        } else {
-          // Se houver jogos com desconto, mostra os 5 melhores descontos
-          this.discountedGames = gamesWithDiscount
-            .sort((a, b) => b.discount_percentage - a.discount_percentage)
-            .slice(0, 5);
-        }
+      // Filtra jogos com desconto
+      const gamesWithDiscount = gamesWithPrices.filter(game =>
+        game.discount_price > 0 && game.discount_price < game.price
+      );
+
+      console.log('Games with discount:', gamesWithDiscount);
+
+      // Se não houver jogos com desconto, mostra todos os jogos
+      if (gamesWithDiscount.length === 0) {
+        this.discountedGames = gamesWithPrices;
+        console.log('Mostrando todos os jogos, nenhum desconto encontrado.');
       } else {
-        this.discountedGames = highDiscountGames;
+        // Se houver jogos com desconto, mostra os 5 melhores descontos
+        this.discountedGames = gamesWithDiscount
+          .sort((a, b) => {
+            const discountA = ((a.price - a.discount_price) / a.price) * 100;
+            const discountB = ((b.price - b.discount_price) / b.price) * 100;
+            return discountB - discountA;
+          })
+          .slice(0, 5);
+        console.log('Mostrando os 5 melhores jogos com desconto:', this.discountedGames);
       }
 
       this.loading = false;
+      console.log('LoadDiscountedGames concluído com sucesso.');
     } catch (err) {
       this.error = 'Erro ao carregar os jogos em promoção';
       this.loading = false;
-      console.error('Erro ao carregar jogos:', err);
+      console.error('Erro detalhado em loadDiscountedGames:', err);
     }
   }
 

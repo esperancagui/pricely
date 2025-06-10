@@ -4,6 +4,13 @@ import { environment } from '../../environments/environment';
 import { ProductPlaceholder } from '../models/productPlaceholder.model';
 import { Product } from '../models/product.model';
 
+interface ApiResponse<T> {
+  products: T[];
+  total?: number;
+  page?: number;
+  limit?: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,23 +19,45 @@ export class TestService {
 
   // Busca todos os placeholders de produtos
   async getAllProducts(): Promise<ProductPlaceholder[]> {
-    const response = await this.httpService.get<any>('/products_placeholder/');
-    return response?.products || [];
+    try {
+      const response = await this.httpService.get<ProductPlaceholder[]>('product-placeholders/');
+      console.log('Resposta do endpoint product-placeholders:', response);
+      return response || [];
+    } catch (error) {
+      console.error('Erro ao buscar produtos:', error);
+      throw error;
+    }
   }
 
   // Busca um placeholder específico
   async getProductById(id: string): Promise<ProductPlaceholder> {
-    return this.httpService.get<ProductPlaceholder>(`/products_placeholder/${id}`);
+    try {
+      return await this.httpService.get<ProductPlaceholder>(`product-placeholders/${id}`);
+    } catch (error) {
+      console.error(`Erro ao buscar produto ${id}:`, error);
+      throw error;
+    }
   }
 
   // Busca todos os produtos com preços e promoções
   async getAllProductsWithPrices(): Promise<Product[]> {
-    const response = await this.httpService.get<any>('/products/');
-    return response?.products || [];
+    try {
+      const response = await this.httpService.get<ApiResponse<Product>>('products/');
+      console.log('Resposta do endpoint products:', response);
+      return response?.products || [];
+    } catch (error) {
+      console.error('Erro ao buscar produtos com preços:', error);
+      throw error;
+    }
   }
 
   // Busca um produto específico com preço e promoção
   async getProductWithPrice(id: string): Promise<Product> {
-    return this.httpService.get<Product>(`/products/${id}`);
+    try {
+      return await this.httpService.get<Product>(`products/${id}`);
+    } catch (error) {
+      console.error(`Erro ao buscar produto com preço ${id}:`, error);
+      throw error;
+    }
   }
 } 

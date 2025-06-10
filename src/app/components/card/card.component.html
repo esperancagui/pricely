@@ -10,102 +10,133 @@
   </div>
 
   <!-- PlayStation Section -->
-  <div class="platform-section" *ngIf="!loading && !error" id="playstation-section">
+  <div class="platform-section" *ngIf="!loading && !error && platformData.playstation.games.length > 0"
+    id="playstation-section">
     <div class="platform-header">
       <img class="platform-logo" src="../../../assets/img/PlayStation-Icon-Logo.wine.svg" alt="PlayStation">
       <h2>PlayStation</h2>
     </div>
     <div class="games-grid">
-      <div class="game-card" *ngFor="let game of playstationGames">
+      <div class="game-card" *ngFor="let game of platformData.playstation.games">
         <div class="game-image">
           <img [src]="game.background_image" [alt]="game.name" (error)="handleImageError($event)">
-          <div class="discount-badge" *ngIf="game.discount_percentage > 0">-{{(game.discount_percentage ||
-            0).toFixed(0)}}%</div>
+          <div class="discount-badge" *ngIf="game.discount_price < game.price">
+            -{{ (((game.price - game.discount_price) / game.price) * 100).toFixed(0) }}%
+          </div>
         </div>
         <div class="game-info">
           <h3>{{game.name || 'Nome não disponível'}}</h3>
-          <p class="platform">{{game.platform || 'Plataforma não especificada'}}</p>
+          <!-- <p class="description">{{game.description || 'Descrição não disponível'}}</p> -->
+          <!-- <p class="platform">{{game.platforms || 'Plataforma não especificada'}}</p> -->
           <div class="price-info">
-            <span class="original-price">R$ {{(game.original_price || 0).toFixed(2)}}</span>
-            <span class="discount-price">R$ {{(game.current_price || 0).toFixed(2)}}</span>
+            <span class="original-price">R$ {{(game.price || 0).toFixed(2)}}</span>
+            <span class="discount-price">R$ {{(game.discount_price || 0).toFixed(2)}}</span>
           </div>
         </div>
       </div>
     </div>
+    <div class="load-more-container" *ngIf="platformData.playstation.hasMore">
+      <button class="btn btn-primary load-more-btn" (click)="loadMore('playstation')">
+        Carregar Mais Jogos de PlayStation
+      </button>
+    </div>
   </div>
 
   <!-- Xbox Section -->
-  <div class="platform-section" *ngIf="!loading && !error" id="xbox-section">
+  <div class="platform-section" *ngIf="!loading && !error && platformData.xbox.games.length > 0" id="xbox-section">
     <div class="platform-header">
       <img class="platform-logo" src="../../../assets/img/Xbox_(app)-Logo.wine.svg" alt="Xbox">
       <h2>Xbox</h2>
     </div>
     <div class="games-grid">
-      <div class="game-card" *ngFor="let game of xboxGames">
+      <div class="game-card" *ngFor="let game of platformData.xbox.games">
         <div class="game-image">
           <img [src]="game.background_image" [alt]="game.name" (error)="handleImageError($event)">
-          <div class="discount-badge" *ngIf="game.discount_percentage > 0">-{{(game.discount_percentage ||
-            0).toFixed(0)}}%</div>
+          <div class="discount-badge" *ngIf="game.discount_price < game.price">
+            -{{ (((game.price - game.discount_price) / game.price) * 100).toFixed(0) }}%
+          </div>
         </div>
         <div class="game-info">
           <h3>{{game.name || 'Nome não disponível'}}</h3>
-          <p class="platform">{{game.platform || 'Plataforma não especificada'}}</p>
+          <!-- <p class="description">{{game.description || 'Descrição não disponível'}}</p> -->
+          <!-- <p class="platform">{{game.platforms || 'Plataforma não especificada'}}</p> -->
           <div class="price-info">
-            <span class="original-price">R$ {{(game.original_price || 0).toFixed(2)}}</span>
-            <span class="discount-price">R$ {{(game.current_price || 0).toFixed(2)}}</span>
+            <span class="original-price">R$ {{(game.price || 0).toFixed(2)}}</span>
+            <span class="discount-price">R$ {{(game.discount_price || 0).toFixed(2)}}</span>
           </div>
         </div>
       </div>
     </div>
+    <div class="load-more-container" *ngIf="platformData.xbox.hasMore">
+      <button class="btn btn-primary load-more-btn" (click)="loadMore('xbox')">
+        Carregar Mais Jogos de Xbox
+      </button>
+    </div>
   </div>
 
   <!-- Nintendo Section -->
-  <div class="platform-section" *ngIf="!loading && !error" id="nintendo-section">
+  <div class="platform-section" *ngIf="!loading && !error && platformData.nintendo.games.length > 0"
+    id="nintendo-section">
     <div class="platform-header">
       <img class="platform-logo" src="../../../assets/img/Nintendo_Switch-Logo.wine.svg" alt="Nintendo">
       <h2>Nintendo</h2>
     </div>
     <div class="games-grid">
-      <div class="game-card" *ngFor="let game of nintendoGames">
+      <div class="game-card" *ngFor="let game of platformData.nintendo.games">
         <div class="game-image">
           <img [src]="game.background_image" [alt]="game.name" (error)="handleImageError($event)">
-          <div class="discount-badge" *ngIf="game.discount_percentage > 0">-{{(game.discount_percentage ||
-            0).toFixed(0)}}%</div>
+          <div class="discount-badge" *ngIf="game.discount_price < game.price">
+            -{{ (((game.price - game.discount_price) / game.price) * 100).toFixed(0) }}%
+          </div>
         </div>
         <div class="game-info">
           <h3>{{game.name || 'Nome não disponível'}}</h3>
-          <p class="platform">{{game.platform || 'Plataforma não especificada'}}</p>
+          <!-- <p class="description">{{game.description || 'Descrição não disponível'}}</p> -->
+          <!-- <p class="platform">{{game.platforms || 'Plataforma não especificada'}}</p> -->
           <div class="price-info">
-            <span class="original-price">R$ {{(game.original_price || 0).toFixed(2)}}</span>
-            <span class="discount-price">R$ {{(game.current_price || 0).toFixed(2)}}</span>
+            <span class="original-price">R$ {{(game.price || 0).toFixed(2)}}</span>
+            <span class="discount-price">R$ {{(game.discount_price || 0).toFixed(2)}}</span>
           </div>
         </div>
       </div>
     </div>
+    <div class="load-more-container" *ngIf="platformData.nintendo.hasMore">
+      <button class="btn btn-primary load-more-btn" (click)="loadMore('nintendo')">
+        Carregar Mais Jogos de Nintendo
+      </button>
+    </div>
   </div>
 
   <!-- PC Section -->
-  <div class="platform-section" *ngIf="!loading && !error" id="pc-section">
+  <div class="platform-section" *ngIf="!loading && !error && platformData.pc.games.length > 0" id="pc-section">
     <div class="platform-header">
       <img class="platform-logo" src="../../../assets/img/Steam_(service)-Logo.wine.svg" alt="PC">
       <h2>PC</h2>
     </div>
     <div class="games-grid">
-      <div class="game-card" *ngFor="let game of pcGames">
+      <div class="game-card" *ngFor="let game of platformData.pc.games">
         <div class="game-image">
           <img [src]="game.background_image" [alt]="game.name" (error)="handleImageError($event)">
-          <div class="discount-badge" *ngIf="game.discount_percentage > 0">-{{(game.discount_percentage ||
-            0).toFixed(0)}}%</div>
+          <div class="discount-badge" *ngIf="game.discount_price < game.price">
+            -{{ (((game.price - game.discount_price) / game.price) * 100).toFixed(0) }}%
+          </div>
         </div>
         <div class="game-info">
           <h3>{{game.name || 'Nome não disponível'}}</h3>
-          <p class="platform">{{game.platform || 'Plataforma não especificada'}}</p>
+          <!-- <p class="description">{{game.description || 'Descrição não disponível'}}</p> -->
+          <!-- <p class="platform">{{game.platforms || 'Plataforma não especificada'}}</p> -->
           <div class="price-info">
-            <span class="original-price">R$ {{(game.original_price || 0).toFixed(2)}}</span>
-            <span class="discount-price">R$ {{(game.current_price || 0).toFixed(2)}}</span>
+            <span class="original-price">R$ {{(game.price || 0).toFixed(2)}}</span>
+            <span class="discount-price">R$ {{(game.discount_price || 0).toFixed(2)}}</span>
           </div>
         </div>
       </div>
     </div>
+    <div class="load-more-container" *ngIf="platformData.pc.hasMore">
+      <button class="btn btn-primary load-more-btn" (click)="loadMore('pc')">
+        Carregar Mais Jogos de PC
+      </button>
+    </div>
   </div>
+
 </div>

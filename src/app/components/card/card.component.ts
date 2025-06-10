@@ -5,8 +5,18 @@ import { ProductPlaceholder } from '../../models/productPlaceholder.model';
 import { Product } from '../../models/product.model';
 
 interface GameWithPrice extends ProductPlaceholder {
-  current_price: number;
-  discount_percentage: number;
+  price: number;
+  discount_price: number;
+  url: string;
+}
+
+interface PlatformDisplayData {
+  name: string;
+  games: GameWithPrice[]; // Jogos atualmente exibidos para esta plataforma
+  allGamesForPlatform: GameWithPrice[]; // Todos os jogos disponíveis para esta plataforma
+  currentPage: number;
+  itemsPerPage: number;
+  hasMore: boolean;
 }
 
 @Component({
@@ -17,107 +27,153 @@ interface GameWithPrice extends ProductPlaceholder {
   styleUrl: './card.component.scss'
 })
 export class CardComponent implements OnInit {
-  playstationGames: GameWithPrice[] = [];
-  xboxGames: GameWithPrice[] = [];
-  nintendoGames: GameWithPrice[] = [];
-  pcGames: GameWithPrice[] = [];
+  private allGamesCombined: GameWithPrice[] = []; // Armazenará todos os jogos combinados da API
+
+  platformData: {
+    playstation: PlatformDisplayData;
+    xbox: PlatformDisplayData;
+    nintendo: PlatformDisplayData;
+    pc: PlatformDisplayData;
+  };
+
   loading: boolean = true;
   error: string | null = null;
 
-  constructor(private testService: TestService) { }
-
-  ngOnInit() {
-    this.loadGames();
+  constructor(private testService: TestService) {
+    const initialItemsPerPage = 10; // Exibe 10 por plataforma inicialmente
+    this.platformData = {
+      playstation: {
+        name: 'PlayStation',
+        games: [],
+        allGamesForPlatform: [],
+        currentPage: 0,
+        itemsPerPage: initialItemsPerPage,
+        hasMore: true
+      },
+      xbox: {
+        name: 'Xbox',
+        games: [],
+        allGamesForPlatform: [],
+        currentPage: 0,
+        itemsPerPage: initialItemsPerPage,
+        hasMore: true
+      },
+      nintendo: {
+        name: 'Nintendo',
+        games: [],
+        allGamesForPlatform: [],
+        currentPage: 0,
+        itemsPerPage: initialItemsPerPage,
+        hasMore: true
+      },
+      pc: {
+        name: 'PC',
+        games: [],
+        allGamesForPlatform: [],
+        currentPage: 0,
+        itemsPerPage: initialItemsPerPage,
+        hasMore: true
+      }
+    };
   }
 
-  private async loadGames() {
-    try {
-      console.log('Iniciando carregamento dos jogos...');
+  ngOnInit() {
+    this.loadAllGamesAndInitializeDisplay();
+  }
 
-      // Busca os placeholders e os produtos com preços
-      console.log('Buscando placeholders e produtos...');
+  private async loadAllGamesAndInitializeDisplay() {
+    this.loading = true;
+    this.error = null;
+    try {
       const [placeholdersResponse, productsResponse] = await Promise.all([
         this.testService.getAllProducts(),
         this.testService.getAllProductsWithPrices()
       ]);
 
-      console.log('Resposta dos placeholders:', placeholdersResponse);
-      console.log('Resposta dos produtos:', productsResponse);
+      console.log('Placeholders Response (All):', placeholdersResponse);
+      console.log('Products Response (All):', productsResponse);
 
-      // Garante que estamos trabalhando com arrays
       const placeholders = Array.isArray(placeholdersResponse) ? placeholdersResponse : [];
       const products = Array.isArray(productsResponse) ? productsResponse : [];
 
-      console.log('Placeholders processados:', placeholders);
-      console.log('Produtos processados:', products);
-
       if (placeholders.length === 0 || products.length === 0) {
-        throw new Error('Nenhum dado recebido da API');
+        throw new Error('Nenhum dado recebido da API para combinação inicial');
       }
 
-      // Combina os placeholders com os preços
-      const gamesWithPrices: GameWithPrice[] = products.map(product => {
+      this.allGamesCombined = products.map(product => {
         const placeholder = placeholders.find(p => p.id === product.product_placeholder_id);
         if (placeholder) {
           return {
             ...placeholder,
-            current_price: product.discounted_price || placeholder.price || 0,
-            discount_percentage: product.percentage_discount || 0,
-            platform: placeholder.platform || 'Plataforma não especificada'
+            price: product.price || 0,
+            discount_price: product.discount_price || 0,
+            url: product.url || ''
           };
         }
         return null;
       }).filter((game): game is GameWithPrice => game !== null);
 
-      console.log('Jogos combinados:', gamesWithPrices);
+      console.log('All Games combined (após combinação inicial):', this.allGamesCombined);
 
-      if (gamesWithPrices.length === 0) {
+      if (this.allGamesCombined.length === 0) {
         throw new Error('Nenhum jogo encontrado após combinar os dados');
       }
 
-      // Filtra os jogos por plataforma com verificação de segurança
-      // this.playstationGames = gamesWithPrices.filter(game => {
-      //   console.log('Filtrando PlayStation:', game.platform);
-      //   return game.platform.toLowerCase().includes('playstation');
-      // }
-      // );
+      // Preenche allGamesForPlatform para cada categoria
+      this.platformData.playstation.allGamesForPlatform = this.allGamesCombined.filter(game =>
+        game.platforms && game.platforms.toLowerCase().includes('playstation')
+      );
+      this.platformData.xbox.allGamesForPlatform = this.allGamesCombined.filter(game =>
+        game.platforms && game.platforms.toLowerCase().includes('xbox')
+      );
+      this.platformData.nintendo.allGamesForPlatform = this.allGamesCombined.filter(game =>
+        game.platforms && game.platforms.toLowerCase().includes('nintendo')
+      );
+      this.platformData.pc.allGamesForPlatform = this.allGamesCombined.filter(game =>
+        game.platforms && game.platforms.toLowerCase().includes('pc')
+      );
 
-      // this.xboxGames = gamesWithPrices.filter(game => {
-      //   console.log('Filtrando Xbox:', game.platform);
-      //   return game.platform.toLowerCase().includes('xbox');
-      // }
-      // );
-
-      // this.nintendoGames = gamesWithPrices.filter(game => {
-      //   console.log('Filtrando Nintendo:', game.platform);
-      //   return game.platform.toLowerCase().includes('nintendo');
-      // }
-      // );
-
-      // this.pcGames = gamesWithPrices.filter(game => {
-      //   console.log('Filtrando PC:', game.platform);
-      //   return game.platform.toLowerCase().includes('pc');
-      // }
-      // );
-
-      this.playstationGames = gamesWithPrices; // Temporariamente atribui todos os jogos para a seção PlayStation
-      this.xboxGames = gamesWithPrices;
-      this.nintendoGames = gamesWithPrices;
-      this.pcGames = gamesWithPrices;
-
-      console.log('Jogos filtrados por plataforma:', {
-        playstation: this.playstationGames,
-        xbox: this.xboxGames,
-        nintendo: this.nintendoGames,
-        pc: this.pcGames
-      });
+      // Exibe a primeira página para cada plataforma
+      for (const key in this.platformData) {
+        if (Object.prototype.hasOwnProperty.call(this.platformData, key)) {
+          const platform: PlatformDisplayData = this.platformData[key as keyof typeof this.platformData];
+          this.displayNextGamesForPlatform(platform);
+        }
+      }
 
       this.loading = false;
     } catch (err) {
-      console.error('Erro detalhado:', err);
+      console.error('Erro detalhado em loadAllGamesAndInitializeDisplay:', err);
       this.error = err instanceof Error ? err.message : 'Erro ao carregar os jogos';
       this.loading = false;
+      // this.hasMoreGames = false; // Não aplicável diretamente aqui, pois é por plataforma
     }
+  }
+
+  loadMore(platformName: 'playstation' | 'xbox' | 'nintendo' | 'pc') {
+    const platform = this.platformData[platformName];
+    if (!this.loading && platform.hasMore) {
+      // this.loading = true; // Opcional: exibir spinner por plataforma
+      this.displayNextGamesForPlatform(platform);
+      // this.loading = false;
+    }
+  }
+
+  private displayNextGamesForPlatform(platform: PlatformDisplayData) {
+    const startIndex = platform.currentPage * platform.itemsPerPage;
+    const endIndex = startIndex + platform.itemsPerPage;
+    const gamesToDisplay = platform.allGamesForPlatform.slice(startIndex, endIndex);
+
+    if (gamesToDisplay.length === 0) {
+      platform.hasMore = false;
+      return;
+    }
+
+    platform.games = [...platform.games, ...gamesToDisplay];
+    platform.hasMore = platform.allGamesForPlatform.length > endIndex;
+    platform.currentPage++;
+
+    console.log(`Exibindo jogos para ${platform.name} - Página:`, platform.currentPage, 'Total exibido:', platform.games.length);
   }
 
   // Função para lidar com erro de carregamento de imagem
